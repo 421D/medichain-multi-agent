@@ -1,0 +1,91 @@
+# Production compose stack.
+#   docker compose up -d --build
+# Brings up: backend (FastAPI), frontend (nginx serving the Vite bundle +
+# proxying /api and /ws), Postgres, Redis. No source mounting, no --reload.
+#
+# Local development still works: `docker-compose.override.yml` adds source
+# bind-mount + --reload + alembic auto-run automatically.
+
+services:
+  backend:
+    build:
+      context: .
+    image: medichain/backend:latest
+    container_name: medichain-backend
+    expose:
+      - "8000"
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      # Override .env so the prod stack always points at the compose Postgres
+      # service (devs commonly point .env at sqlite for local pytest speed).
+      DATABASE_URL: postgresql+asyncpg://medichain:medichain@db:5432/medichain
+      REDIS_URL: redis://redis:6379
+      APP_ENV: production
+    # Production: 1 uvicorn worker. LangGraph's MemorySaver checkpointer is
+    # in-process — multi-worker would split state across workers and break
+    # interrupt/resume across consecutive WebSocket frames. For multi-worker
+    # we'd need to swap MemorySaver for a Postgres- or Redis-backed saver.
+    # Alembic runs first so a fresh tester DB is migrated to the latest schema.
+    command: >
+      sh -c "alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 90s
+      retries: 5
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend-v3-creative
+    image: medichain/frontend:latest
+    container_name: medichain-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    container_name: medichain-db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: medichain
+      POSTGRES_USER: medichain
+      POSTGRES_PASSWORD: medichain
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U medichain"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: medichain-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  pgdata:

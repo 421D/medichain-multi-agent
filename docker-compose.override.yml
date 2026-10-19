@@ -1,0 +1,19 @@
+# Development override — automatically merged into docker-compose.yml when
+# present. Bind-mounts the source tree + enables uvicorn --reload so editing
+# files locally hot-reloads the running container. Tester / production runs
+# should remove or rename this file (or use `docker compose -f docker-compose.yml up`
+# to ignore overrides).
+
+services:
+  backend:
+    volumes:
+      - .:/app
+    command: >
+      sh -c "alembic upgrade head &&
+             uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  frontend:
+    # In dev we usually run `npm run dev` outside Docker for instant HMR.
+    # Disable the nginx container by giving it a no-op profile so it only
+    # starts when explicitly requested via `docker compose --profile prod-fe up`.
+    profiles: ["prod-fe"]

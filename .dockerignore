@@ -1,0 +1,37 @@
+.git
+.github
+.venv
+__pycache__
+**/__pycache__
+*.pyc
+.pytest_cache
+**/.pytest_cache
+.gstack
+.DS_Store
+**/.DS_Store
+
+# Secrets and local runtime state
+.env
+.env.*
+!.env.example
+*.db
+*.db-journal
+.coverage
+coverage.xml
+htmlcov
+
+# Frontend/build caches
+node_modules
+**/node_modules
+dist
+**/dist
+.next
+
+# Demo/submission-only artifacts not needed in the backend image
+frontend
+ppt-workspace
+screenshots
+reports/traces
+*.zip
+
+# Keep chroma_data/ and reports/evaluation_latest.json available for RAG/eval.

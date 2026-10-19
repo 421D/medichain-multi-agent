@@ -1,0 +1,32 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "strict"
+markers = [
+    "live: end-to-end tests requiring a running backend on :8000 (skipped by default; run with `pytest -m live` after `uvicorn app.main:app`)",
+    "slow: tests that take >5s",
+]
+# By default skip live integration tests so `pytest tests/` runs clean offline.
+# CI / local devs can run them explicitly with `pytest -m live`.
+addopts = "-m 'not live' --strict-markers"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning:langchain_core.*",
+]
+
+[tool.coverage.run]
+source = ["app", "agents", "cdss", "harness", "orchestrator", "rag", "models", "prompts"]
+omit = [
+    "*/__init__.py",
+    "*/tests/*",
+    "*/.venv/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if __name__ == .__main__.:",
+    "raise NotImplementedError",
+]
+show_missing = true
+skip_empty = true

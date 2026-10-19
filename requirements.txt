@@ -1,0 +1,36 @@
+# === FastAPI & Web (Person 6) ===
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+websockets==14.1
+httpx==0.28.1
+pydantic==2.10.4
+pydantic-settings==2.7.1
+python-dotenv==1.0.1
+
+# === Database (Person 6) ===
+sqlalchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+aiosqlite==0.20.0
+alembic==1.14.1
+redis==5.2.1
+
+# === MCP (Model Context Protocol) ===
+mcp>=1.0.0
+
+# === LLM Providers ===
+openai==1.58.1
+groq==0.13.0
+langchain-openai==0.3.0
+langchain-core==0.3.29
+
+# === Agent Orchestration (Winston) ===
+langgraph==0.2.60
+langgraph-checkpoint==2.0.10
+
+# === RAG (Jianing + Winston) ===
+chromadb==0.5.23
+
+# === Testing ===
+pytest==8.3.4
+pytest-asyncio==0.25.0
+pytest-cov==6.0.0

@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * MediChain Design System tokens. The :root values use shadcn's HSL channel
+ * format so Tailwind's `hsl(var(--x))` pattern keeps working; the additional
+ * tokens below the shadcn block expose the raw hex values used by custom
+ * components like .agent-pill, .mc-safety-banner, and the chat bubbles.
+ */
+@layer base {
+  :root {
+    --background: 220 20% 7%;          /* #0E1117 bg-1 */
+    --foreground: 210 20% 92%;         /* #E6ECF2 fg-1 */
+
+    --card: 220 18% 11%;               /* #161A22 bg-2 */
+    --card-foreground: 210 20% 92%;
+
+    --popover: 220 18% 13%;
+    --popover-foreground: 210 20% 92%;
+
+    --primary: 210 80% 55%;            /* #3B82F6 */
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 220 16% 16%;
+    --secondary-foreground: 210 20% 85%;
+
+    --muted: 220 14% 14%;
+    --muted-foreground: 215 15% 55%;   /* fg-2 */
+
+    --accent: 220 16% 18%;
+    --accent-foreground: 210 20% 92%;
+
+    --destructive: 0 72% 55%;          /* #DC2626 */
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 14% 18%;             /* #272C36 */
+    --input: 220 14% 18%;
+    --ring: 210 80% 55%;
+
+    --radius: 0.5rem;                   /* 8px base */
+
+    /* Agent identity colors — shared with frontend-v3-creative/types/medichain.ts */
+    --agent-interviewer: 217 91% 60%;   /* #3B82F6 blue */
+    --agent-diagnostician: 142 71% 45%; /* #16A34A green */
+    --agent-critic: 0 84% 60%;          /* #DC2626 → #EF4444 bright red */
+    --agent-cdss: 189 94% 43%;          /* #0891B2 cyan */
+    --agent-coordinator: 38 92% 50%;    /* #F59E0B amber */
+    --agent-debate: 270 91% 65%;        /* #A855F7 purple */
+
+    /* Sidebar */
+    --sidebar-background: 220 20% 5%;
+    --sidebar-foreground: 210 15% 65%;
+    --sidebar-primary: 210 80% 55%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 220 16% 12%;
+    --sidebar-accent-foreground: 210 20% 92%;
+    --sidebar-border: 220 14% 14%;
+    --sidebar-ring: 210 80% 55%;
+
+    /* Surface + semantic */
+    --surface-elevated: 220 18% 14%;    /* bg-3 */
+    --glow-primary: 210 80% 55%;
+    --success: 142 71% 45%;             /* safe — #16A34A */
+    --warning: 38 92% 50%;              /* caution — #F59E0B */
+    --danger:  0 84% 60%;               /* urgent — #EF4444 */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "ss01", "cv11";   /* IBM Plex single-storey g / clearer numerals */
+  }
+
+  /* Typographic recipes from the design system — MediChain uses tight
+     tracking on headings and wide uppercase tracking for eyebrows/labels. */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold;
+    letter-spacing: -0.02em;
+  }
+  .mc-eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+  .mc-mono {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+  }
+}
+
+@layer utilities {
+  /* Agent tinted colour utilities (text / bg / border) — CDSS + Debate added
+     so both Clinical Scoring and Debate panels get the correct identity
+     colour, matching the design system's six-agent palette. */
+  .agent-interviewer   { color: hsl(var(--agent-interviewer));   }
+  .agent-diagnostician { color: hsl(var(--agent-diagnostician)); }
+  .agent-critic        { color: hsl(var(--agent-critic));        }
+  .agent-cdss          { color: hsl(var(--agent-cdss));          }
+  .agent-coordinator   { color: hsl(var(--agent-coordinator));   }
+  .agent-debate        { color: hsl(var(--agent-debate));        }
+
+  .bg-agent-interviewer   { background-color: hsl(var(--agent-interviewer));   }
+  .bg-agent-diagnostician { background-color: hsl(var(--agent-diagnostician)); }
+  .bg-agent-critic        { background-color: hsl(var(--agent-critic));        }
+  .bg-agent-cdss          { background-color: hsl(var(--agent-cdss));          }
+  .bg-agent-coordinator   { background-color: hsl(var(--agent-coordinator));   }
+  .bg-agent-debate        { background-color: hsl(var(--agent-debate));        }
+
+  .border-agent-interviewer   { border-color: hsl(var(--agent-interviewer));   }
+  .border-agent-diagnostician { border-color: hsl(var(--agent-diagnostician)); }
+  .border-agent-critic        { border-color: hsl(var(--agent-critic));        }
+  .border-agent-cdss          { border-color: hsl(var(--agent-cdss));          }
+  .border-agent-coordinator   { border-color: hsl(var(--agent-coordinator));   }
+  .border-agent-debate        { border-color: hsl(var(--agent-debate));        }
+
+  .glow-primary {
+    box-shadow: 0 0 20px -5px hsl(var(--glow-primary) / 0.3);
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar { width: 8px; height: 8px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }
+}
+
+/*
+ * Safety banner — sticky urgent alert shown at top of SessionDetail when
+ * critic flags red. Uses a vertical pulsing accent bar to draw the eye
+ * without violating the "no celebratory animations" rule.
+ */
+.mc-safety-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(90deg, hsl(var(--destructive) / 0.18), hsl(var(--destructive) / 0.08));
+  border: 1px solid hsl(var(--destructive) / 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.mc-safety-banner::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: hsl(var(--destructive));
+  animation: mc-pulse-bar 1.6s ease-in-out infinite;
+}
+@keyframes mc-pulse-bar { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+/*
+ * Chat bubble pointed-corner — the design spec calls for rounded-bl-sm on
+ * assistant and rounded-br-sm on user bubbles to signal direction. These
+ * classes are already available from Tailwind; we add no custom rules here
+ * but reference the convention so future edits don't lose it.
+ */
