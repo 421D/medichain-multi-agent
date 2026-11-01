@@ -4,7 +4,7 @@ A multi-agent LLM system that takes a patient's description of their symptoms, r
 diagnostic debate between specialised agents, checks the result against deterministic clinical risk
 scores, and returns a plain-language assessment with an emergency warning when one is needed.
 
-Built as a group project by a team of six. Shared here with the team's agreement.
+Built as a group project by a team of six over three agile sprints, with client review meetings and demos guiding each iteration. Shared here with the team's agreement.
 
 > Research prototype. Not a medical device and not a substitute for professional medical advice.
 
