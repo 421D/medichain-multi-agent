@@ -18,7 +18,7 @@ FastMCP · React 18 + TypeScript + Vite + Tailwind · Docker Compose · GitHub A
 ## My role: Project coordinator and Prompt & LLM Engineer (Danni Cai)
 
 I coordinated the project: I was the team's main contact with the client, assigned tasks to team members
-and followed up on progress each week across the three sprints. Winston Chen was the lead presenter in client demos.
+and followed up on progress each week across the three sprints.
 
 I designed and iterated the system prompts for every LLM step in the pipeline. All six live in
 [`prompts/`](prompts/) and are used in the final version:
@@ -160,14 +160,7 @@ demo_orchestration.py  Offline CLI demo
 
 ## Team
 
-| Member | Role | Main work |
-|---|---|---|
-| Winston Chen | Agent orchestration lead, lead presenter | LangGraph pipeline (`agents/`, `orchestrator/`), WebSocket streaming, Pydantic schemas, RAG retriever |
-| **Danni Cai** | **Project coordinator, prompt & LLM engineer, testing** | **Client liaison and task allocation, all system prompts (`prompts/`), original multi-provider LLM factory, 212 backend pytest tests including regression tests, GitHub Actions CI** |
-| Jianing Liu | RAG & CDSS engineer | ChromaDB pipeline, knowledge-base preparation, CDSS scoring and MCP server |
-| Ruoyu Wang | Frontend, chat UI | Consultation chat, WebSocket hook, session management |
-| Shuling Huang | Frontend, visualisation | Dashboard, Agent Timeline, Evaluation, Workflow and Tools pages |
-| Gaoyuan Fan | Backend & DevOps | FastAPI app, database layer, Docker, Alembic, evaluation harness (with Winston) |
+Built with five other team members, who developed the LangGraph orchestration, the RAG pipeline and CDSS scoring, the FastAPI backend and deployment, and the React frontend.
 
 ## Limitations and future work
 
