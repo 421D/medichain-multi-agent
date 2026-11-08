@@ -37,6 +37,8 @@ The design decisions behind each prompt, and the problems they address, are writ
 
 I also wrote the backend test suite in [`tests/`](tests/): 212 pytest tests, including 37 regression tests for 12 defects I found in a code review, run by GitHub Actions on every push.
 
+Earlier in the project I built the original multi-provider LLM factory ([`models/llm_factory.py`](models/llm_factory.py): Groq, OpenAI, Gemini), which the main pipeline later replaced with `agents/base.py`.
+
 ---
 
 ## How it works
