@@ -32,6 +32,8 @@ I designed and iterated the system prompts for every LLM step in the pipeline. A
 The design decisions behind each prompt, and the problems they address, are written up in
 **[docs/prompt-design.md](docs/prompt-design.md)**.
 
+I also wrote the backend test suite in [`tests/`](tests/): 212 pytest tests, including 37 regression tests for 12 defects I found in a code review, run by GitHub Actions on every push.
+
 ---
 
 ## How it works
@@ -158,7 +160,7 @@ demo_orchestration.py  Offline CLI demo
 | Member | Role | Main work |
 |---|---|---|
 | Winston Chen | Agent orchestration lead | LangGraph pipeline (`agents/`, `orchestrator/`), WebSocket streaming, Pydantic schemas, RAG retriever |
-| **Danni Cai** | **Prompt & LLM engineer** | **All system prompts (`prompts/`), original multi-provider LLM factory** |
+| **Danni Cai** | **Prompt & LLM engineer, testing** | **All system prompts (`prompts/`), original multi-provider LLM factory, 212 backend pytest tests including regression tests, GitHub Actions CI** |
 | Jianing Liu | RAG & CDSS engineer | ChromaDB pipeline, knowledge-base preparation, CDSS scoring and MCP server |
 | Ruoyu Wang | Frontend, chat UI | Consultation chat, WebSocket hook, session management |
 | Shuling Huang | Frontend, visualisation | Dashboard, Agent Timeline, Evaluation, Workflow and Tools pages |
